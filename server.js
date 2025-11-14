@@ -1,10 +1,26 @@
-import app from "#app";
-import db from "#db/client";
+import 'dotenv/config';
+import express from 'express';
+import usersRouter from './routes/users.js';
+import productsRouter from './routes/products.js';
+import ordersRouter from './routes/orders.js';
+import { notFound, onError } from './middleware/error.js';
 
-const PORT = process.env.PORT ?? 3000;
 
-await db.connect();
+const app = express();
+app.use(express.json()); // body parser
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}...`);
-});
+
+app.get('/', (req, res) => res.json({ ok: true, service: 'MARKET API' }));
+
+
+app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+app.use('/orders', ordersRouter);
+
+
+app.use(notFound);
+app.use(onError);
+
+
+const port = Number(process.env.PORT || 3000);
+app.listen(port, () => console.log(`Server listening on :${port}`));
