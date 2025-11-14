@@ -1,32 +1,40 @@
-DROP TABLE orders_products;
-DROP TABLE orders;
-DROP TABLE products;
-DROP TABLE users;
+-- Drop in dependency order to avoid FK issues
+DROP TABLE IF EXISTS orders_products;
+DROP TABLE IF EXISTS orders;
+DROP TABLE IF EXISTS products;
+DROP TABLE IF EXISTS users;
 
--- Create Tables
-CREATE TABLE users(
-    id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+
+-- USERS
+CREATE TABLE users (
+id SERIAL PRIMARY KEY,
+username TEXT UNIQUE NOT NULL,
+password TEXT NOT NULL
 );
 
-CREATE TABLE orders(
-    id SERIAL PRIMARY KEY,
-    date DATE NOT NULL,
-    note TEXT,
-    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE
+
+-- ORDERS
+CREATE TABLE orders (
+id SERIAL PRIMARY KEY,
+date DATE NOT NULL,
+note TEXT,
+user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE products(
-    id SERIAL PRIMARY KEY,
-    title TEXT NOT NULL,
-    description TEXT NOT NULL,
-    price NUMERIC(2) NOT NULL 
+
+-- PRODUCTS
+CREATE TABLE products (
+id SERIAL PRIMARY KEY,
+title TEXT NOT NULL,
+description TEXT NOT NULL,
+price NUMERIC(10,2) NOT NULL
 );
 
-CREATE TABLE orders_products( -- JUNCTION TABLE
-    order_id INT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
-    product_id INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
-    quantity INT NOT NULL,
-    PRIMARY KEY (order_id, product_id)
+
+-- JUNCTION TABLE
+CREATE TABLE orders_products (
+order_id INT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
+product_id INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+quantity INT NOT NULL,
+CONSTRAINT orders_products_pkey PRIMARY KEY (order_id, product_id)
 );
