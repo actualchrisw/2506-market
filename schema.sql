@@ -1,4 +1,3 @@
--- Drop in dependency order to avoid FK issues
 DROP TABLE IF EXISTS orders_products;
 DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
