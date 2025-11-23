@@ -1,9 +1,11 @@
 import express from "express";
+
 import {
   createUser,
   getUserByUsername,
   signToken,
   verifyPassword,
+  JWT_SECRET,
 } from "#db/users";
 import {
   addProductToOrder,
@@ -31,7 +33,7 @@ function requireAuth(req, res, next) {
   if (!token) return res.status(401).send("Unauthorized");
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
+    const payload = jwt.verify(token, JWT_SECRET);
     req.user = payload;
     next();
   } catch (err) {
