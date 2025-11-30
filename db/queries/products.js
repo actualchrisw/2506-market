@@ -1,15 +1,17 @@
 import db from "../client.js";
 
-const { rows } = await db.query(`SELECT * FROM products ORDER BY id;`);
+export async function getAllProducts() {
+  const { rows } = await db.query(`SELECT * FROM products ORDER BY id;`);
   return rows;
 }
-
-const {
+export async function getProductById(id) {
+  const {
     rows: [row],
   } = await db.query(`SELECT * FROM products WHERE id=$1;`, [id]);
   return row || null;
 }
 
+export async function getUserOrdersForProduct({ userId, productId }) {
   const { rows } = await db.query(
     `SELECT o.*
     FROM orders o
