@@ -19,6 +19,7 @@ export async function getOrdersForUser(userId) {
   );
   return rows;
 }
+
 export async function getOrderById(id) {
   const {
     rows: [row],
