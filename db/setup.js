@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { readFile } from "node:fs/promises";
 
-const products = [
+export const products = [
   ["Trail Mug", "Stainless steel camping mug", 12.99],
   ["Wool Socks", "Warm merino hiking socks", 14.5],
   ["LED Lantern", "Rechargeable camp lantern", 29.99],
