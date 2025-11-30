@@ -1,6 +1,7 @@
 import db from "./client.js";
 
-const {
+export async function createOrder({ userId, date, note }) {
+  const {
     rows: [row],
   } = await db.query(
     `INSERT INTO orders (date, note, user_id)
@@ -11,20 +12,23 @@ const {
   return row;
 }
 
-const { rows } = await db.query(
+export async function getOrdersForUser(userId) {
+  const { rows } = await db.query(
     `SELECT * FROM orders WHERE user_id=$1 ORDER BY id;`,
     [userId],
   );
   return rows;
 }
 
-const {
+export async function getOrderById(id) {
+  const {
     rows: [row],
   } = await db.query(`SELECT * FROM orders WHERE id=$1;`, [id]);
   return row || null;
 }
 
-const { rows } = await db.query(
+export async function getOrderProducts(orderId) {
+  const { rows } = await db.query(
     `SELECT p.*, op.quantity
     FROM orders_products op
     JOIN products p ON p.id = op.product_id
@@ -35,7 +39,8 @@ const { rows } = await db.query(
   return rows;
 }
 
-const {
+export async function addProductToOrder({ orderId, productId, quantity }) {
+  const {
     rows: [row],
   } = await db.query(
     `INSERT INTO orders_products(order_id, product_id, quantity)
