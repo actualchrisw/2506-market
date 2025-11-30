@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { query } from './pool.js';
+import { query } from '../pool.js';
 
 
 const JWT_SECRET = process.env.JWT_SECRET;

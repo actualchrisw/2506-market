@@ -1,4 +1,4 @@
-import db from "./client.js";
+import db from "../client.js";
 
 const { rows } = await db.query(`SELECT * FROM products ORDER BY id;`);
   return rows;
